@@ -1,0 +1,77 @@
+project_name: hid-node
+
+env:
+  - GO111MODULE=on
+
+before:
+  hooks:
+    - go mod tidy -compat=1.18
+
+builds:
+  - id: ubuntu-latest-amd64
+    main: ./cmd/somechaind
+    binary: somechaind
+    targets:
+      - "linux_amd64"
+    env:
+      - CGO_ENABLED=1
+      - GO111MODULE=on
+    flags:
+      - -mod=readonly
+    ldflags:
+      - -s -w
+      - -X github.com/cosmos/cosmos-sdk/version.Name=somechain
+      - -X github.com/cosmos/cosmos-sdk/version.AppName=somechain
+      - -X github.com/cosmos/cosmos-sdk/version.Version={{ .Version }}
+      - -X github.com/cosmos/cosmos-sdk/version.Commit={{ .Commit }}
+
+  - id: ubuntu-latest-arm64
+    main: ./cmd/somechaind
+    binary: somechaind
+    targets:
+      - "linux_arm64"
+    flags:
+      - -mod=readonly
+    ldflags:
+      - -s -w
+      - -X github.com/cosmos/cosmos-sdk/version.Name=somechain 
+      - -X github.com/cosmos/cosmos-sdk/version.AppName=somechain 
+      - -X github.com/cosmos/cosmos-sdk/version.Version={{ .Version }}
+      - -X github.com/cosmos/cosmos-sdk/version.Commit={{ .Commit }}
+
+archives:
+  - id: release-archives
+    replacements:
+      linux: Linux
+      darwin: Darwin
+      amd64: x86_64
+    format: tar.gz
+    wrap_in_directory: true
+    name_template: "{{ .Binary }}-{{ .Version }}-{{ .Os }}-{{ .Arch }}"
+    files:
+      - README.md
+
+checksum:
+  name_template: 'checksums.txt'
+  algorithm: sha256
+
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+
+release:
+  github:
+    owner: arnabghose997
+    name: somechain
+  
+  draft: false
+  prerelease: false
+  mode: append
+  header: |
+    # Release Notes for {{.ProjectName}} v{{.Version}}
