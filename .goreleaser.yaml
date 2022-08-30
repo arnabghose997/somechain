@@ -8,11 +8,13 @@ before:
     - go mod tidy -compat=1.18
 
 builds:
-  - id: ubuntu-latest-amd64
+  - id: ubuntu-amd64
     main: ./cmd/somechaind
     binary: somechaind
-    targets:
-      - "linux_amd64"
+    goos:
+      - linux
+    goarch:
+      - amd64
     env:
       - CGO_ENABLED=1
       - GO111MODULE=on
@@ -25,11 +27,13 @@ builds:
       - -X github.com/cosmos/cosmos-sdk/version.Version={{ .Version }}
       - -X github.com/cosmos/cosmos-sdk/version.Commit={{ .Commit }}
 
-  - id: ubuntu-latest-arm64
+  - id: ubuntu-arm64
     main: ./cmd/somechaind
     binary: somechaind
-    targets:
-      - "linux_arm64"
+    goos:
+      - linux
+    goarch:
+      - arm64
     flags:
       - -mod=readonly
     ldflags:
@@ -39,12 +43,24 @@ builds:
       - -X github.com/cosmos/cosmos-sdk/version.Version={{ .Version }}
       - -X github.com/cosmos/cosmos-sdk/version.Commit={{ .Commit }}
 
+  - id: darwin-amd64
+    main: ./cmd/somechaind
+    binary: somechaind
+    goos:
+      - darwin
+    goarch:
+      - arm64
+    flags:
+      - -mod=readonly
+    ldflags:
+      - -s -w
+      - -X github.com/cosmos/cosmos-sdk/version.Name=somechain 
+      - -X github.com/cosmos/cosmos-sdk/version.AppName=somechain 
+      - -X github.com/cosmos/cosmos-sdk/version.Version={{ .Version }}
+      - -X github.com/cosmos/cosmos-sdk/version.Commit={{ .Commit }}
+    
 archives:
   - id: release-archives
-    replacements:
-      linux: Linux
-      darwin: Darwin
-      amd64: x86_64
     format: tar.gz
     wrap_in_directory: true
     name_template: "{{ .Binary }}-{{ .Version }}-{{ .Os }}-{{ .Arch }}"
