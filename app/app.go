@@ -362,18 +362,18 @@ func New(
 	)
 
 	scopedMonitoringKeeper := app.CapabilityKeeper.ScopeToModule(monitoringptypes.ModuleName)
-	app.MonitoringKeeper = *monitoringpkeeper.NewKeeper(
-		appCodec,
-		keys[monitoringptypes.StoreKey],
-		keys[monitoringptypes.MemStoreKey],
-		app.GetSubspace(monitoringptypes.ModuleName),
-		app.StakingKeeper,
-		app.IBCKeeper.ClientKeeper,
-		app.IBCKeeper.ConnectionKeeper,
-		app.IBCKeeper.ChannelKeeper,
-		&app.IBCKeeper.PortKeeper,
-		scopedMonitoringKeeper,
-	)
+	// app.MonitoringKeeper = *monitoringpkeeper.NewKeeper(
+	// 	appCodec,
+	// 	keys[monitoringptypes.StoreKey],
+	// 	keys[monitoringptypes.MemStoreKey],
+	// 	app.GetSubspace(monitoringptypes.ModuleName),
+	// 	app.StakingKeeper,
+	// 	// app.IBCKeeper.ClientKeeper,
+	// 	// app.IBCKeeper.ConnectionKeeper,
+	// 	// app.IBCKeeper.ChannelKeeper,
+	// 	&app.IBCKeeper.PortKeeper,
+	// 	scopedMonitoringKeeper,
+	// )
 	monitoringModule := monitoringp.NewAppModule(appCodec, app.MonitoringKeeper)
 
 	app.SomechainKeeper = *somechainmodulekeeper.NewKeeper(
@@ -389,7 +389,6 @@ func New(
 	// Create static IBC router, add transfer route, then set and seal it
 	ibcRouter := ibcporttypes.NewRouter()
 	ibcRouter.AddRoute(ibctransfertypes.ModuleName, transferModule)
-	ibcRouter.AddRoute(monitoringptypes.ModuleName, monitoringModule)
 	// this line is used by starport scaffolding # ibc/app/router
 	app.IBCKeeper.SetRouter(ibcRouter)
 
