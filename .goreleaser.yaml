@@ -1,4 +1,4 @@
-project_name: hid-node
+project_name: somechain
 
 env:
   - GO111MODULE=on
