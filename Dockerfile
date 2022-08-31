@@ -13,7 +13,7 @@ RUN apt-get install ${PACKAGES} -y
 # Add source files
 
 COPY . /usr/local/app/
-WORKDIR /usr/local/app
+WORKDIR /usr/local/app/somechaind
 RUN ["pwd"]
 RUN ["ls", "-R"]
 RUN make build
