@@ -35,6 +35,9 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - run: ls -l
+      - run: echo "Present Directory"
+      - run: pwd
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
         with:
