@@ -59,28 +59,28 @@ builds:
   #     - -X github.com/cosmos/cosmos-sdk/version.Version={{ .Version }}
   #     - -X github.com/cosmos/cosmos-sdk/version.Commit={{ .Commit }}
 
-dockers:
-  - image_templates: ["ghcr.io/arnabghose997/{{ .ProjectName }}:{{ .Version }}-amd64"]
-    dockerfile: Dockerfile
-    use: buildx
-    build_flag_templates:
-    - --platform=linux/amd64
-    - --label=org.opencontainers.label=image.title={{ .ProjectName }}
-    - --label=org.opencontainers.label=image.description={{ .ProjectName }}
-    - --label=org.opencontainers.label=image.url=https://github.com/arnabghose997/{{ .ProjectName }}
-    - --label=org.opencontainers.label=image.source=https://github.com/arnabghose997/{{ .ProjectName }}
-    - --label=org.opencontainers.label=image.version={{ .Version }}
-    - --label=org.opencontainers.label=image.revision={{ .FullCommit }}
-    - --label=org.opencontainers.label=image.licenses=MIT
+# dockers:
+#   - image_templates: ["ghcr.io/arnabghose997/{{ .ProjectName }}:{{ .Version }}-amd64"]
+#     dockerfile: Dockerfile
+#     use: buildx
+#     build_flag_templates:
+#     - --platform=linux/amd64
+#     - --label=org.opencontainers.label=image.title={{ .ProjectName }}
+#     - --label=org.opencontainers.label=image.description={{ .ProjectName }}
+#     - --label=org.opencontainers.label=image.url=https://github.com/arnabghose997/{{ .ProjectName }}
+#     - --label=org.opencontainers.label=image.source=https://github.com/arnabghose997/{{ .ProjectName }}
+#     - --label=org.opencontainers.label=image.version={{ .Version }}
+#     - --label=org.opencontainers.label=image.revision={{ .FullCommit }}
+#     - --label=org.opencontainers.label=image.licenses=MIT
 
-docker_manifests:
-  - name_template: ghcr.io/arnabghose997/{{ .ProjectName }}:{{ .Version }}
-    image_templates:
-    - ghcr.io/arnabghose997/{{ .ProjectName }}:{{ .Version }}-amd64
+# docker_manifests:
+#   - name_template: ghcr.io/arnabghose997/{{ .ProjectName }}:{{ .Version }}
+#     image_templates:
+#     - ghcr.io/arnabghose997/{{ .ProjectName }}:{{ .Version }}-amd64
   
-  - name_template: ghcr.io/arnabghose997/{{ .ProjectName }}:latest
-    image_templates:
-    - ghcr.io/arnabghose997/{{ .ProjectName }}:{{ .Version }}-amd64
+#   - name_template: ghcr.io/arnabghose997/{{ .ProjectName }}:latest
+#     image_templates:
+#     - ghcr.io/arnabghose997/{{ .ProjectName }}:{{ .Version }}-amd64
 
 archives:
   - id: release-archives
