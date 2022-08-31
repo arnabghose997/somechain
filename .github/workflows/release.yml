@@ -29,9 +29,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
-  release-docker:
+  prepare-docker:
     runs-on: ubuntu-latest
-    needs: release-binaries-github 
+    needs: release-binaries-github
+    outputs:
+      DOCKER_TAGS: ${{ steps.docker-build.outputs.tags }}
+      DOCKER_LABELS: ${{ steps.docker-build.outputs.labels }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -56,11 +59,11 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build Docker Image
+      - name: Prepare Docker Image and Manifest
         id: docker-build
         uses: docker/metadata-action@v4
         with:
-          images: ghcr.io/${{ github.repository}}
+          images: ghcr.io/${{ github.repository }}
           flavor: |
             latest=auto
           tags: |
@@ -80,3 +83,30 @@ jobs:
           push: true
           tags: ${{ steps.docker-build.outputs.tags }}
           labels: ${{ steps.docker-build.outputs.labels }}
+
+  release-docker-amd64:
+    runs-on: ubuntu-latest
+    needs: prepare-docker
+    steps:
+      - name: Build and push image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          platforms: linux/amd64
+          push: true
+          tags: ${{ needs.prepare-docker.outputs.DOCKER_TAGS }}
+          labels: ${{ needs.prepare-docker.outputs.DOCKER_LABELS }}
+
+  release-docker-arm64:
+    runs-on: ubuntu-latest
+    needs: prepare-docker
+    steps:
+      - name: Build and push image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          platforms: linux/arn64
+          push: true
+          tags: ${{ needs.prepare-docker.outputs.DOCKER_TAGS }}
+          labels: ${{ needs.prepare-docker.outputs.DOCKER_LABELS }}
+
