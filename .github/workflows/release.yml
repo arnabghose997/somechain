@@ -10,6 +10,7 @@ permissions:
 
 jobs:
   release-binaries-github:
+    name: Release Binaries
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -30,6 +31,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
   prepare-docker:
+    name: Prepare Docker Image
     runs-on: ubuntu-latest
     needs: release-binaries-github
     outputs:
@@ -75,16 +77,9 @@ jobs:
             org.opencontainers.image.source="https://github.com/hypersign-protocol/hid-node"
             org.opencontainers.image.created={{date 'dddd, MMMM Do YYYY, h:mm:ss a'}}
             org.opencontainers.image.documentation="https://docs.hypersign.id"
-      - name: Build and push image
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          platforms: linux/amd64,linux/arm64
-          push: true
-          tags: ${{ steps.docker-build.outputs.tags }}
-          labels: ${{ steps.docker-build.outputs.labels }}
 
   release-docker-amd64:
+    name: Linux Release (amd64)
     runs-on: ubuntu-latest
     needs: prepare-docker
     steps:
@@ -98,6 +93,7 @@ jobs:
           labels: ${{ needs.prepare-docker.outputs.DOCKER_LABELS }}
 
   release-docker-arm64:
+    name: Linux Release (arm64)
     runs-on: ubuntu-latest
     needs: prepare-docker
     steps:
