@@ -12,10 +12,14 @@ RUN apt-get install ${PACKAGES} -y
 
 # Add source files
 
-COPY . /usr/local/app/
-WORKDIR /usr/local/app/somechaind
+WORKDIR /usr/local/app
+
 RUN ["pwd"]
 RUN ["ls", "-R"]
+COPY . .
+RUN ["pwd"]
+RUN ["ls", "-R"]
+
 RUN make build
 
 # Install ca-certificates
