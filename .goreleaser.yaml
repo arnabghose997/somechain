@@ -58,42 +58,31 @@ builds:
       - -X github.com/cosmos/cosmos-sdk/version.AppName=somechain 
       - -X github.com/cosmos/cosmos-sdk/version.Version={{ .Version }}
       - -X github.com/cosmos/cosmos-sdk/version.Commit={{ .Commit }}
-    
+
 dockers:
   - image_templates: ["ghcr.io/arnabghose997/{{ .ProjectName }}:{{ .Version }}-amd64"]
     dockerfile: Dockerfile
     use: buildx
     build_flag_templates:
     - --platform=linux/amd64
-    - --label=image.title={{ .ProjectName }}
-    - --label=image.description={{ .ProjectName }}
-    - --label=image.url=https://github.com/arnabghose997/{{ .ProjectName }}
-    - --label=image.source=https://github.com/arnabghose997/{{ .ProjectName }}
-    - --label=image.version={{ .Version }}
-    - --label=image.revision={{ .FullCommit }}
-    - --label=image.licenses=MIT
+    - --org.opencontainers.label=image.title={{ .ProjectName }}
+    - --org.opencontainers.label=image.description={{ .ProjectName }}
+    - --org.opencontainers.label=image.url=https://github.com/arnabghose997/{{ .ProjectName }}
+    - --org.opencontainers.label=image.source=https://github.com/arnabghose997/{{ .ProjectName }}
+    - --org.opencontainers.label=image.version={{ .Version }}
+    - --org.opencontainers.label=image.revision={{ .FullCommit }}
+    - --org.opencontainers.label=image.licenses=MIT
   - image_templates: ["ghcr.io/arnabghose997/{{ .ProjectName }}:{{ .Version }}-arm64v8"]
     dockerfile: Dockerfile
     use: buildx
     build_flag_templates:
     - --platform=linux/arm64/v8
-    - --label=image.title={{ .ProjectName }}
-    - --label=image.description={{ .ProjectName }}
-    - --label=image.url=https://github.com/arnabghose997/{{ .ProjectName }}
-    - --label=image.source=https://github.com/arnabghose997/{{ .ProjectName }}
-    - --label=image.version={{ .Version }}
-    - --label=image.revision={{ .FullCommit }}
-    - --label=image.licenses=MIT
-
-docker_manifests:
-- name_template: ghcr.io/arnabghose997/{{ .ProjectName }}:{{ .Version }}
-  image_templates:
-  - ghcr.io/arnabghose997/{{ .ProjectName }}:{{ .Version }}-amd64
-  - ghcr.io/arnabghose997/{{ .ProjectName }}:{{ .Version }}-arm64v7
-- name_template: ghcr.io/arnabghose997/{{ .ProjectName }}:latest
-  image_templates:
-  - ghcr.io/arnabghose997/{{ .ProjectName }}:{{ .Version }}-amd64
-  - ghcr.io/arnabghose997/{{ .ProjectName }}:{{ .Version }}-arm64v7
+    - --org.opencontainers.label=image.title={{ .ProjectName }}
+    - --org.opencontainers.label=image.description={{ .ProjectName }}
+    - --org.opencontainers.label=image.url=https://github.com/arnabghose997/{{ .ProjectName }}
+    - --org.opencontainers.label=image.source=https://github.com/arnabghose997/{{ .ProjectName }}
+    - --org.opencontainers.label=image.version={{ .Version }}
+    - --org.opencontainers.label=image.licenses=MIT
 
 archives:
   - id: release-archives
