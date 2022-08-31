@@ -72,11 +72,11 @@ dockers:
     - --label=image.version={{ .Version }}
     - --label=image.revision={{ .FullCommit }}
     - --label=image.licenses=MIT
-  - image_templates: ["ghcr.io/arnabghose997/{{ .ProjectName }}:{{ .Version }}-arm64v7"]
+  - image_templates: ["ghcr.io/arnabghose997/{{ .ProjectName }}:{{ .Version }}-arm64v8"]
     dockerfile: Dockerfile
     use: buildx
     build_flag_templates:
-    - --platform=linux/arm64/v7
+    - --platform=linux/arm64/v8
     - --label=image.title={{ .ProjectName }}
     - --label=image.description={{ .ProjectName }}
     - --label=image.url=https://github.com/arnabghose997/{{ .ProjectName }}
