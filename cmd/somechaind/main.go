@@ -8,6 +8,9 @@ import (
 	"github.com/ignite-hq/cli/ignite/pkg/cosmoscmd"
 )
 
+
+// Some random comments
+
 func main() {
 	rootCmd, _ := cosmoscmd.NewRootCmd(
 		app.Name,
