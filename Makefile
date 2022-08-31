@@ -1,3 +1,5 @@
+#!/usr/bin/make -f
+
 VERSION := $(shell echo $(shell git describe --tags) | sed 's/^v//')
 COMMIT := $(shell git rev-parse --short HEAD)
 
