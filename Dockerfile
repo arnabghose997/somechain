@@ -12,7 +12,7 @@ COPY . .
 # Install minimum necessary dependencies and build hid-node
 RUN apt-get update
 RUN apt-get install ${PACKAGES} -y
-RUN make install 
+CMD ["make", "install"]
 
 # Install ca-certificates
 # RUN apk add --update ca-certificates
