@@ -57,7 +57,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build Docker Image
-        id: meta
+        id: docker-build
         uses: docker/metadata-action@v4
         with:
           images: ghcr.io/${{ github.repository}}
@@ -72,3 +72,13 @@ jobs:
             org.opencontainers.image.source="https://github.com/hypersign-protocol/hid-node"
             org.opencontainers.image.created={{date 'dddd, MMMM Do YYYY, h:mm:ss a'}}
             org.opencontainers.image.documentation="https://docs.hypersign.id"
+      - name: Build and push image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          platforms: 
+            - linux/amd64
+            - linux/arm/v7
+          push: true
+          tags: ${{ steps.docker-build.outputs.tags }}
+          labels: ${{ steps.docker-build.outputs.labels }}
