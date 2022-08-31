@@ -72,17 +72,15 @@ dockers:
     - --label=org.opencontainers.label=image.version={{ .Version }}
     - --label=org.opencontainers.label=image.revision={{ .FullCommit }}
     - --label=org.opencontainers.label=image.licenses=MIT
-  # - image_templates: ["ghcr.io/arnabghose997/{{ .ProjectName }}:{{ .Version }}-arm64v8"]
-  #   dockerfile: Dockerfile
-  #   use: buildx
-  #   build_flag_templates:
-  #   - --platform=linux/arm64/v8
-  #   - --label=org.opencontainers.label=image.title={{ .ProjectName }}
-  #   - --label=org.opencontainers.label=image.description={{ .ProjectName }}
-  #   - --label=org.opencontainers.label=image.url=https://github.com/arnabghose997/{{ .ProjectName }}
-  #   - --label=org.opencontainers.label=image.source=https://github.com/arnabghose997/{{ .ProjectName }}
-  #   - --label=org.opencontainers.label=image.version={{ .Version }}
-  #   - --label=org.opencontainers.label=image.licenses=MIT
+
+docker_manifests:
+  - name_template: ghcr.io/arnabghose997/{{ .ProjectName }}:{{ .Version }}
+    image_templates:
+    - ghcr.io/arnabghose997/{{ .ProjectName }}:{{ .Version }}-amd64
+  
+  - name_template: ghcr.io/arnabghose997/{{ .ProjectName }}:latest
+    image_templates:
+    - ghcr.io/arnabghose997/{{ .ProjectName }}:{{ .Version }}-amd64
 
 archives:
   - id: release-archives
