@@ -72,11 +72,11 @@ dockers:
     - --label=image.version={{ .Version }}
     - --label=image.revision={{ .FullCommit }}
     - --label=image.licenses=MIT
-  - image_templates: ["ghcr.io/arnabghose997/{{ .ProjectName }}:{{ .Version }}-arm64v8"]
+  - image_templates: ["ghcr.io/arnabghose997/{{ .ProjectName }}:{{ .Version }}-arm64v7"]
     dockerfile: Dockerfile
     use: buildx
     build_flag_templates:
-    - --platform=linux/arm64/v8
+    - --platform=linux/arm64/v7
     - --label=image.title={{ .ProjectName }}
     - --label=image.description={{ .ProjectName }}
     - --label=image.url=https://github.com/arnabghose997/{{ .ProjectName }}
@@ -89,11 +89,11 @@ docker_manifests:
 - name_template: ghcr.io/arnabghose997/{{ .ProjectName }}:{{ .Version }}
   image_templates:
   - ghcr.io/arnabghose997/{{ .ProjectName }}:{{ .Version }}-amd64
-  - ghcr.io/arnabghose997/{{ .ProjectName }}:{{ .Version }}-arm64v8
+  - ghcr.io/arnabghose997/{{ .ProjectName }}:{{ .Version }}-arm64v7
 - name_template: ghcr.io/arnabghose997/{{ .ProjectName }}:latest
   image_templates:
   - ghcr.io/arnabghose997/{{ .ProjectName }}:{{ .Version }}-amd64
-  - ghcr.io/arnabghose997/{{ .ProjectName }}:{{ .Version }}-arm64v8
+  - ghcr.io/arnabghose997/{{ .ProjectName }}:{{ .Version }}-arm64v7
 
 archives:
   - id: release-archives
