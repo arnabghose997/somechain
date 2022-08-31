@@ -15,9 +15,9 @@ export GO111MODULE=on
 ###############################################################################
 ###                                  Build                                  ###
 ###############################################################################
-install:
-	go install -mod=readonly $(BUILD_FLAGS) ./cmd/somechaind		
-
 go.sum: go.mod
-		@echo "--> Ensure dependencies have not been modified"
-		@go mod verify
+	@echo "--> Ensure dependencies have not been modified"
+	@go mod verify
+
+install: go.sum
+	go install -mod=readonly $(BUILD_FLAGS) ./cmd/somechaind		
