@@ -11,12 +11,11 @@ RUN apt-get install ${PACKAGES} -y
 
 
 # Add source files
-
 WORKDIR /usr/local/app
 
 RUN ["pwd"]
 RUN ["ls", "-R"]
-COPY . .
+COPY ../../ .
 RUN ["pwd"]
 RUN ["ls", "-R"]
 
