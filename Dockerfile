@@ -3,22 +3,15 @@ FROM golang:1.18
 # Set up dependencies
 ENV PACKAGES curl make git libc-dev bash gcc python3 jq
 
+# Set working directory for the build
+WORKDIR /usr/local/app
+
+# Add source files
+COPY . .
+
 # Install minimum necessary dependencies and build hid-node
 RUN apt-get update
 RUN apt-get install ${PACKAGES} -y
-
-# Set working directory for the build
-
-
-# Add source files
-WORKDIR /usr/local/app
-
-RUN ["pwd"]
-RUN ["ls", "-R"]
-COPY ../../ .
-RUN ["pwd"]
-RUN ["ls", "-R"]
-
 RUN make build
 
 # Install ca-certificates
