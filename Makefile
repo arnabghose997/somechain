@@ -17,8 +17,8 @@ export GO111MODULE=on
 ###############################################################################
 .PHONY: build
 
-build: go.sum
-		go build -mod=readonly $(BUILD_FLAGS) -o ./build/somechaind ./cmd/somechaind		
+install:
+	go install -mod=readonly $(BUILD_FLAGS) ./cmd/somechaind		
 
 go.sum: go.mod
 		@echo "--> Ensure dependencies have not been modified"
