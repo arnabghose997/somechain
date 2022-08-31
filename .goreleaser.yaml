@@ -59,7 +59,7 @@ builds:
       - -X github.com/cosmos/cosmos-sdk/version.Version={{ .Version }}
       - -X github.com/cosmos/cosmos-sdk/version.Commit={{ .Commit }}
     
-docker:
+dockers:
   - image_templates: ["ghcr.io/arnabghose997/{{ .ProjectName }}:{{ .Version }}-amd64"]
     dockerfile: Dockerfile
     use: buildx
