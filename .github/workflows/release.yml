@@ -31,7 +31,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
   publish-docker:
-    name: Publish Docker Image (amd64)
+    name: Publish Docker Image (linux/amd64)
     runs-on: ubuntu-latest
     needs: release-binaries-github 
     steps:
@@ -58,7 +58,7 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build Docker Image
+      - name: Prepare Docker Metadata
         id: docker-build
         uses: docker/metadata-action@v4
         with:
